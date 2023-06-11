@@ -56,4 +56,19 @@ export class LogParser {
   }
 }
 
+// Read command-line arguments
+const args = process.argv.slice(2);
+const inputFile = args.find(arg => arg.startsWith('--input'))?.split('=')[1];
+const outputFile = args.find(arg => arg.startsWith('--output'))?.split('=')[1];
+
+if (!inputFile || !outputFile) {
+  console.log('Usage: ts-node parser.ts --input <inputFile> --output <outputFile>');
+} else {
+  const logParser = new LogParser(inputFile, outputFile);
+  logParser.parseLogs()
+    .then(() => console.log('Log parsing completed.'))
+    .catch(error => console.error('An error occurred during log parsing:', error));
+}
+
+
 
